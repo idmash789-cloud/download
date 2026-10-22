@@ -55,7 +55,7 @@ export const server=http.createServer(async(req,res)=>{
  await new Promise((resolve,reject)=>{const stream=createReadStream(file);res.on('close',()=>{stream.destroy();resolve();});stream.on('error',reject);res.on('finish',resolve);stream.pipe(res);});
  }finally{active--;if(dir)await rm(dir,{recursive:true,force:true});}return;
  }
- const pages={'/':['index.html','text/html'],'/app.js':['app.js','text/javascript'],'/style.css':['style.css','text/css']};
+ const pages={'/':['index.html','text/html'],'/app.js':['app.js','text/javascript'],'/api.js':['api.js','text/javascript'],'/style.css':['style.css','text/css']};
  if(req.method==='GET'&&pages[u.pathname]){const [file,type]=pages[u.pathname];res.setHeader('Content-Type',type+'; charset=utf-8');res.end(await readFile(path.join(root,'public',file)));return;}
  json(res,404,{error:'Halaman tidak ditemukan.'});
  }catch(e){if(!res.headersSent)json(res,400,{error:e.message||'Terjadi kesalahan.'});else res.destroy();}
